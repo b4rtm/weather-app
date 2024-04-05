@@ -4,6 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.weatherapp.fragments.AdditionalInfoFragment
+import com.example.weatherapp.fragments.TodayFragment
+import com.example.weatherapp.fragments.WeekForecastFragment
 
 class FragmentPageAdapter(
     fragmentManager: FragmentManager,
