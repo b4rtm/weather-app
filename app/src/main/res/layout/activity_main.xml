@@ -16,7 +16,7 @@
         app:tabMode="fixed"
         app:tabIndicatorAnimationMode="elastic"
         app:tabIndicatorColor="@null"
-        app:tabSelectedTextColor="@color/white"
+        app:tabSelectedTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

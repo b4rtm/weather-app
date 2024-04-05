@@ -1,10 +1,8 @@
 package com.example.weatherapp
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 
@@ -52,5 +50,10 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        val weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
+        val weatherApi = WeatherApi(weatherViewModel)
+        weatherApi.execute()
+
     }
+
 }
