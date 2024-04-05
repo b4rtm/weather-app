@@ -1,12 +1,11 @@
 package com.example.weatherapp
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 
 class TodayFragment : Fragment() {
@@ -40,7 +39,11 @@ class TodayFragment : Fragment() {
 
         viewModel.getWeatherData().observe(viewLifecycleOwner) { weatherData ->
             locationTextView.text = weatherData.city
-            temperatureTextView.text = "${weatherData.temperature}°C"
+            when (weatherData.unit) {
+                "metric" -> temperatureTextView.text = "${weatherData.temperature}°C"
+                "standard" -> temperatureTextView.text = "${weatherData.temperature} K"
+                "imperial" -> temperatureTextView.text = "${weatherData.temperature}°F"
+            }
             latitudeTextView.text = "${weatherData.latitude}"
             longitudeTextView.text = "${weatherData.longitude}"
             timeTextView.text = weatherData.time

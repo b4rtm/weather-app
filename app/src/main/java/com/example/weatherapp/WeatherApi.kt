@@ -4,12 +4,10 @@ import android.os.AsyncTask
 import android.util.Log
 import org.json.JSONObject
 import java.net.URL
-import java.time.Instant
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-class WeatherApi(private val viewModel: WeatherViewModel) : AsyncTask<String, Void, String>() {
+class WeatherApi(private val viewModel: WeatherViewModel, private val unit:String) : AsyncTask<String, Void, String>() {
 
 
     val CITY : String = "Lodz"
@@ -25,7 +23,7 @@ class WeatherApi(private val viewModel: WeatherViewModel) : AsyncTask<String, Vo
     override fun doInBackground(vararg params: String?): String? {
         var response:String?
         try{
-            response = URL("https://api.openweathermap.org/data/2.5/weather?q=$CITY&units=metric&appid=$API").readText(
+            response = URL("https://api.openweathermap.org/data/2.5/weather?q=$CITY&units=$unit&appid=$API").readText(
                 Charsets.UTF_8
             )
         }catch (e: Exception){
@@ -82,7 +80,7 @@ class WeatherApi(private val viewModel: WeatherViewModel) : AsyncTask<String, Vo
         val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val formattedDateTime = LocalDateTime.now().format(dateTimeFormat)
 
-        return WeatherData(city, latitude, longitude, formattedDateTime, temperature, pressure, description, humidity, windSpeed, windDeg, cloudiness)
+        return WeatherData(city, latitude, longitude, formattedDateTime, temperature, unit, pressure, description, humidity, windSpeed, windDeg, cloudiness)
     }
 
 }
