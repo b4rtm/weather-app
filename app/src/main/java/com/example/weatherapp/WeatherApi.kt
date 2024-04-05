@@ -1,11 +1,13 @@
 package com.example.weatherapp
 
 import android.os.AsyncTask
+import android.util.Log
 import org.json.JSONObject
 import java.net.URL
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 class WeatherApi(private val viewModel: WeatherViewModel) : AsyncTask<String, Void, String>() {
 
@@ -34,68 +36,23 @@ class WeatherApi(private val viewModel: WeatherViewModel) : AsyncTask<String, Vo
 
     override fun onPostExecute(result: String?) {
         super.onPostExecute(result)
+        Log.d("xdddasd","asda")
+
         try {
+            if (result != null) {
+                val weatherData =
+                    parseWeatherData(result) // Metoda do parsowania danych pogodowych z otrzymanej odpowiedzi
 
-            try {
-                if (result != null) {
-                    val weatherData = parseWeatherData(result) // Metoda do parsowania danych pogodowych z otrzymanej odpowiedzi
-
-                    // Ustawienie danych pogodowych w ViewModelu
-                    viewModel.setWeatherData(weatherData)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
+                // Ustawienie danych pogodowych w ViewModelu
+                viewModel.setWeatherData(weatherData)
             }
-
-
-
-
-
-            /* Extracting JSON returns from the API */
-            val jsonObj = JSONObject(result)
-            val main = jsonObj.getJSONObject("main")
-            val sys = jsonObj.getJSONObject("sys")
-            val wind = jsonObj.getJSONObject("wind")
-            val weather = jsonObj.getJSONArray("weather").getJSONObject(0)
-
-//            val updatedAt:Long = jsonObj.getLong("dt")
-//            val updatedAtText = "Updated at: "+ SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(Date(updatedAt*1000))
-            val temp = main.getString("temp")+"°C"
-//            val tempMin = "Min Temp: " + main.getString("temp_min")+"°C"
-//            val tempMax = "Max Temp: " + main.getString("temp_max")+"°C"
-//            val pressure = main.getString("pressure")
-//            val humidity = main.getString("humidity")
-
-//            val sunrise:Long = sys.getLong("sunrise")
-//            val sunset:Long = sys.getLong("sunset")
-//            val windSpeed = wind.getString("speed")
-//            val weatherDescription = weather.getString("description")
-
-            val address = jsonObj.getString("name")+", "+sys.getString("country")
-
-            /* Populating extracted data into our views */
-//            findViewById<TextView>(R.id.location).text = address
-//            findViewById<TextView>(R.id.updated_at).text =  updatedAtText
-//            findViewById<TextView>(R.id.status).text = weatherDescription.capitalize()
-//            findViewById<TextView>(R.id.temp).text = temp
-//            findViewById<TextView>(R.id.temp_min).text = tempMin
-//            findViewById<TextView>(R.id.temp_max).text = tempMax
-//            findViewById<TextView>(R.id.sunrise).text = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunrise*1000))
-//            findViewById<TextView>(R.id.sunset).text = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunset*1000))
-//            findViewById<TextView>(R.id.wind).text = windSpeed
-//            findViewById<TextView>(R.id.pressure).text = pressure
-//            findViewById<TextView>(R.id.humidity).text = humidity
-//
-//            /* Views populated, Hiding the loader, Showing the main design */
-//            findViewById<ProgressBar>(R.id.loader).visibility = View.GONE
-//            findViewById<RelativeLayout>(R.id.mainContainer).visibility = View.VISIBLE
-
         } catch (e: Exception) {
-//            findViewById<ProgressBar>(R.id.loader).visibility = View.GONE
-//            findViewById<TextView>(R.id.errorText).visibility = View.VISIBLE
+            e.printStackTrace()
         }
-
     }
+
+
+
 
     private fun parseWeatherData(jsonString: String): WeatherData {
         val jsonObject = JSONObject(jsonString)
@@ -122,10 +79,10 @@ class WeatherApi(private val viewModel: WeatherViewModel) : AsyncTask<String, Vo
         val clouds = jsonObject.getJSONObject("clouds")
         val cloudiness = clouds.getInt("all")
 
-        val dt = jsonObject.getLong("dt")
-        val time = LocalDateTime.ofInstant(Instant.ofEpochSecond(dt), ZoneId.systemDefault()).toString()
+        val dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val formattedDateTime = LocalDateTime.now().format(dateTimeFormat)
 
-        return WeatherData(city, latitude, longitude, time, temperature, pressure, description, humidity, windSpeed, windDeg, cloudiness)
+        return WeatherData(city, latitude, longitude, formattedDateTime, temperature, pressure, description, humidity, windSpeed, windDeg, cloudiness)
     }
 
 }

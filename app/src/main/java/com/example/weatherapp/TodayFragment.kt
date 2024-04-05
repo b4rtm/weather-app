@@ -12,7 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 class TodayFragment : Fragment() {
 
     private lateinit var locationTextView: TextView
+    private lateinit var latitudeTextView: TextView
+    private lateinit var longitudeTextView: TextView
+    private lateinit var timeTextView: TextView
+    private lateinit var preassureTextView: TextView
+    private lateinit var descriptionTextView: TextView
     private lateinit var temperatureTextView: TextView
+
     private lateinit var viewModel: WeatherViewModel
 
     override fun onCreateView(
@@ -20,19 +26,26 @@ class TodayFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_today, container, false)
 
-        // Inicjalizacja ViewModel
         viewModel = ViewModelProvider(requireActivity()).get(WeatherViewModel::class.java)
 
-        // Znajdź TextView w widoku
         locationTextView = view.findViewById(R.id.location)
         temperatureTextView = view.findViewById(R.id.temp)
+        latitudeTextView = view.findViewById(R.id.latitude)
+        longitudeTextView = view.findViewById(R.id.longitude)
+        timeTextView = view.findViewById(R.id.time)
+        preassureTextView = view.findViewById(R.id.pressure)
+        descriptionTextView = view.findViewById(R.id.description)
 
         viewModel.getWeatherData().observe(viewLifecycleOwner) { weatherData ->
             locationTextView.text = weatherData.city
             temperatureTextView.text = "${weatherData.temperature}°C"
+            latitudeTextView.text = "${weatherData.latitude}"
+            longitudeTextView.text = "${weatherData.longitude}"
+            timeTextView.text = weatherData.time
+            preassureTextView.text = "${weatherData.pressure}"
+            descriptionTextView.text = weatherData.description
         }
 
         return view
