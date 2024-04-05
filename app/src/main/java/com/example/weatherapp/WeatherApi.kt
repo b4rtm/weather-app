@@ -7,10 +7,9 @@ import java.net.URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class WeatherApi(private val viewModel: WeatherViewModel, private val unit:String) : AsyncTask<String, Void, String>() {
+class WeatherApi(private val viewModel: WeatherViewModel, private val unit:String, private val city : String) : AsyncTask<String, Void, String>() {
 
 
-    val CITY : String = "Lodz"
     val API : String = "94ef87a9d23828a17b8a8202eb185d1b"
 
 //    override fun onPreExecute() {
@@ -23,7 +22,7 @@ class WeatherApi(private val viewModel: WeatherViewModel, private val unit:Strin
     override fun doInBackground(vararg params: String?): String? {
         var response:String?
         try{
-            response = URL("https://api.openweathermap.org/data/2.5/weather?q=$CITY&units=$unit&appid=$API").readText(
+            response = URL("https://api.openweathermap.org/data/2.5/weather?q=$city&units=$unit&appid=$API").readText(
                 Charsets.UTF_8
             )
         }catch (e: Exception){

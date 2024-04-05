@@ -34,8 +34,10 @@
                     android:id="@+id/editTextCity"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:inputType="text"
                     android:layout_weight="5"
-                    android:hint="City" />
+                    android:hint="City"
+                    android:imeOptions="actionDone"/>
 
                 <Spinner
                     android:id="@+id/spinnerUnits"
