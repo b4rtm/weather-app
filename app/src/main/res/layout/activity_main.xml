@@ -35,7 +35,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:layout_weight="5"
+                    android:layout_weight="3"
                     android:hint="City"
                     android:imeOptions="actionDone"/>
 
@@ -47,13 +47,22 @@
                     android:entries="@array/unit_options" />
 
                 <ImageButton
+                    android:id="@+id/imageButtonFavorites"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#6FBBF8"
+                    android:contentDescription="Favorites"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/fav_icon" />
+
+                <ImageButton
                     android:id="@+id/imageButtonRefresh"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="#6FBBF8"
                     android:contentDescription="Refresh"
-
                     android:scaleType="fitStart"
                     android:src="@drawable/refresh_icon" />
 
