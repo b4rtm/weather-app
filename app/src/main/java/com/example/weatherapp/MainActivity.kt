@@ -23,19 +23,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var weatherViewModel : WeatherViewModel
     private lateinit var imageButtonRefresh : ImageButton
     private lateinit var buttonFavorites : ImageButton
+    private lateinit var buttonAddFavorites : ImageButton
     private lateinit var spinnerUnits : Spinner
     private lateinit var editTextCity : EditText
     private lateinit var favouriteManager: FavouriteManager
-    private var city = "Lodz"
+    private lateinit var city : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         favouriteManager = FavouriteManager(this)
-        favouriteManager.addFavoriteCity("Poznan")
-        favouriteManager.addFavoriteCity("Kongo")
 
-
+        city = favouriteManager.getFavoriteCities().first()
         editTextCity = findViewById(R.id.editTextCity)
         spinnerUnits = findViewById(R.id.spinnerUnits)
         tabLayout = findViewById(R.id.tabLayout)
@@ -45,9 +44,23 @@ class MainActivity : AppCompatActivity() {
             fetchDataFromApi(convertItemToUnit(spinnerUnits.selectedItem.toString()), city)
         }
 
-        buttonFavorites = findViewById<ImageButton>(R.id.imageButtonFavorites)
+        buttonFavorites = findViewById(R.id.imageButtonFavorites)
         buttonFavorites.setOnClickListener {
             showFavoriteCitiesDialog()
+        }
+
+        buttonAddFavorites = findViewById(R.id.imageButtonAddFavorites)
+        setFavourite()
+
+        buttonAddFavorites.setOnClickListener{
+            val isFavorite = favouriteManager.isCityFavorite(city)
+            if (isFavorite) {
+                buttonAddFavorites.setImageResource(R.drawable.favorite)
+                favouriteManager.removeFavoriteCity(city)
+            } else {
+                buttonAddFavorites.setImageResource(R.drawable.favorite_gold)
+                favouriteManager.addFavoriteCity(city)
+            }
         }
 
 
@@ -55,13 +68,13 @@ class MainActivity : AppCompatActivity() {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 city = editTextCity.text.toString()
                 fetchDataFromApi(convertItemToUnit(spinnerUnits.selectedItem.toString()), city)
+                setFavourite()
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
         }
 
         weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
-
 
         adapter = FragmentPageAdapter(supportFragmentManager, lifecycle)
 
@@ -102,7 +115,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
             viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -111,6 +123,15 @@ class MainActivity : AppCompatActivity() {
         })
 
         fetchDataFromApi("metric", city)
+    }
+
+    private fun setFavourite() {
+        val isFavorite = favouriteManager.isCityFavorite(city)
+        if (isFavorite) {
+            buttonAddFavorites.setImageResource(R.drawable.favorite_gold)
+        } else {
+            buttonAddFavorites.setImageResource(R.drawable.favorite)
+        }
     }
 
 
@@ -147,34 +168,10 @@ class MainActivity : AppCompatActivity() {
 
         listViewFavoriteCities.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             city = favoriteCitiesArray[position]
+            setFavourite()
             fetchDataFromApi("metric", city)
             alertDialog.dismiss()
         }
-
-        listViewFavoriteCities.onItemLongClickListener = AdapterView.OnItemLongClickListener { _, _, position, _ ->
-            val cityName = favoriteCitiesArray[position]
-
-            AlertDialog.Builder(this)
-                .setTitle("Remove City")
-                .setMessage("Do you want to remove $cityName from favorites?")
-                .setPositiveButton("Yes") { _, _ ->
-                    // Usuń miasto z listy ulubionych w SharedPreferences
-                    favouriteManager.removeFavoriteCity(cityName)
-
-                    // Zaktualizuj listę ulubionych miast w adapterze
-                    favoriteCitiesArray.removeAt(position)
-                    adapter.notifyDataSetChanged()
-                }
-                .setNegativeButton("No", null)
-                .show()
-
-            true // Zwróć true, aby uniemożliwić wywołanie zdarzenia onClick
-        }
-
-
     }
-
-
-
 
 }

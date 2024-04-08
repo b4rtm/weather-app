@@ -13,6 +13,10 @@ class FavouriteManager(context: Context) {
         sharedPreferences.edit().putStringSet("favoriteCities", cities).apply()
     }
 
+    fun isCityFavorite(city: String): Boolean {
+        return getFavoriteCities().contains(city)
+    }
+
     fun removeFavoriteCity(city: String) {
         val cities = getFavoriteCities().toMutableSet()
         cities.remove(city)

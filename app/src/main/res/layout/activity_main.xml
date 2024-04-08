@@ -54,7 +54,17 @@
                     android:background="#6FBBF8"
                     android:contentDescription="Favorites"
                     android:scaleType="fitStart"
-                    android:src="@drawable/fav_icon" />
+                    android:src="@drawable/stars" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonAddFavorites"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#6FBBF8"
+                    android:contentDescription="Favorites"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/favorite" />
 
                 <ImageButton
                     android:id="@+id/imageButtonRefresh"
