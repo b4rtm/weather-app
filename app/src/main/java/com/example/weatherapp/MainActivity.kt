@@ -1,6 +1,9 @@
 package com.example.weatherapp
 
 import android.app.AlertDialog
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -27,21 +30,28 @@ class MainActivity : AppCompatActivity() {
     private lateinit var spinnerUnits : Spinner
     private lateinit var editTextCity : EditText
     private lateinit var favouriteManager: FavouriteManager
-    private lateinit var city : String
+    lateinit var city : String
+    private lateinit var weatherApi : WeatherApi
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         favouriteManager = FavouriteManager(this)
 
-        city = favouriteManager.getFavoriteCities().first()
+        favouriteManager.removeFavoriteCity("lodz")
+        favouriteManager.removeFavoriteCity("turek")
+        favouriteManager.removeFavoriteCity("Poznan")
+
+        city = favouriteManager.getFavoriteCities().firstOrNull() ?: "Warsaw"
         editTextCity = findViewById(R.id.editTextCity)
         spinnerUnits = findViewById(R.id.spinnerUnits)
         tabLayout = findViewById(R.id.tabLayout)
         viewPager2 = findViewById(R.id.viewPager2)
         imageButtonRefresh = findViewById(R.id.imageButtonRefresh)
         imageButtonRefresh.setOnClickListener {
-            fetchDataFromApi(convertItemToUnit(spinnerUnits.selectedItem.toString()), city)
+        fetchDataFromApi(convertItemToUnit(spinnerUnits.selectedItem.toString()), city)
         }
 
         buttonFavorites = findViewById(R.id.imageButtonFavorites)
@@ -92,12 +102,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onTabUnselected(p0: TabLayout.Tab?) {
-            }
-
-            override fun onTabReselected(p0: TabLayout.Tab?) {
-            }
-
+            override fun onTabUnselected(p0: TabLayout.Tab?) {}
+            override fun onTabReselected(p0: TabLayout.Tab?) {}
         })
 
         spinnerUnits.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -108,6 +114,7 @@ class MainActivity : AppCompatActivity() {
                 id: Long
             ) {
                 val selectedUnit = convertItemToUnit(parent?.getItemAtPosition(position).toString())
+
                 fetchDataFromApi(selectedUnit, city)
             }
 
@@ -122,7 +129,12 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        fetchDataFromApi("metric", city)
+        if (isNetworkAvailable()) {
+            fetchDataFromApi("metric", city)
+        }
+        else{
+            favouriteManager.getWeatherData(city)?.let { weatherViewModel.setWeatherData(it) }
+        }
     }
 
     private fun setFavourite() {
@@ -134,11 +146,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
+        return networkCapabilities != null &&
+                (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                        networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
+    }
+
 
     private fun fetchDataFromApi(unit : String, city : String) {
-        val weatherApi = WeatherApi(weatherViewModel, unit, city)
+        weatherApi = WeatherApi(this, weatherViewModel, unit, city, favouriteManager)
         weatherApi.execute()
     }
+
+
 
     private fun convertItemToUnit(item : String): String {
         return when (item) {
@@ -169,9 +193,31 @@ class MainActivity : AppCompatActivity() {
         listViewFavoriteCities.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             city = favoriteCitiesArray[position]
             setFavourite()
-            fetchDataFromApi("metric", city)
+            if (isNetworkAvailable()) {
+                fetchDataFromApi("metric", city)
+            }
+            else{
+                favouriteManager.getWeatherData(city)?.let { weatherViewModel.setWeatherData(it) }
+            }
             alertDialog.dismiss()
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        saveWeatherDataForFavouriteCities()
+    }
+
+    private fun saveWeatherDataForFavouriteCities() {
+        val favouriteCities = favouriteManager.getFavoriteCities()
+        for (cityItem in favouriteCities) {
+            fetchDataFromApi("metric", cityItem)
+//            Log.d("xdd", weatherViewModel.getWeatherData().value.toString())
+//            weatherViewModel.getWeatherData().value?.let {
+//                favouriteManager.saveWeatherData(cityItem,
+//                    it
+//                )
+//            }
+        }
+    }
 }

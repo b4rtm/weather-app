@@ -3,11 +3,18 @@ package com.example.weatherapp
 import android.os.AsyncTask
 import android.util.Log
 import org.json.JSONObject
+
 import java.net.URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class WeatherApi(private val viewModel: WeatherViewModel, private val unit:String, private val city : String) : AsyncTask<String, Void, String>() {
+class WeatherApi(
+    private val mainActivity: MainActivity,
+    private val viewModel: WeatherViewModel,
+    private val unit: String,
+    private val city: String,
+    private val favouriteManager: FavouriteManager
+) : AsyncTask<String, Void, String>() {
 
 
     val API : String = "94ef87a9d23828a17b8a8202eb185d1b"
@@ -25,6 +32,7 @@ class WeatherApi(private val viewModel: WeatherViewModel, private val unit:Strin
             response = URL("https://api.openweathermap.org/data/2.5/weather?q=$city&units=$unit&appid=$API").readText(
                 Charsets.UTF_8
             )
+            Log.d("asd", response.toString())
         }catch (e: Exception){
             response = null
         }
@@ -33,15 +41,18 @@ class WeatherApi(private val viewModel: WeatherViewModel, private val unit:Strin
 
     override fun onPostExecute(result: String?) {
         super.onPostExecute(result)
-        Log.d("xdddasd","asda")
 
         try {
             if (result != null) {
-                val weatherData =
-                    parseWeatherData(result) // Metoda do parsowania danych pogodowych z otrzymanej odpowiedzi
-
-                // Ustawienie danych pogodowych w ViewModelu
+                 val weatherData = parseWeatherData(result)
+                Log.d("city", weatherData.city)
+                Log.d("citues", favouriteManager.getFavoriteCities().toString())
+                if(favouriteManager.isCityFavorite(weatherData.city)){
+                    favouriteManager.saveWeatherData(weatherData.city,weatherData)
+                    Log.d("Xdd",favouriteManager.getWeatherData(weatherData.city).toString())
+                }
                 viewModel.setWeatherData(weatherData)
+                mainActivity.city = weatherData.city
             }
         } catch (e: Exception) {
             e.printStackTrace()
