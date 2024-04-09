@@ -1,7 +1,11 @@
 package com.example.weatherapp
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
@@ -14,6 +18,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.example.weatherapp.refresh.DataRefreshScheduler
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
@@ -42,6 +47,9 @@ class MainActivity : AppCompatActivity() {
         favouriteManager.removeFavoriteCity("lodz")
         favouriteManager.removeFavoriteCity("turek")
         favouriteManager.removeFavoriteCity("Poznan")
+
+//        val dataRefreshScheduler = DataRefreshScheduler(this, this)
+//        dataRefreshScheduler.scheduleDataRefresh()
 
         city = favouriteManager.getFavoriteCities().firstOrNull() ?: "Warsaw"
         editTextCity = findViewById(R.id.editTextCity)
@@ -130,6 +138,8 @@ class MainActivity : AppCompatActivity() {
             favouriteManager.getWeatherData(city)?.let { weatherViewModel.setWeatherData(it) }
             Toast.makeText(this, "Dane mogą być nieaktualne. Brak połączenia z internetem", Toast.LENGTH_SHORT).show()
         }
+        startDataRefreshThread(this)
+
     }
 
     fun fetchDataFromApi(unit: String, city: String) {
@@ -176,6 +186,23 @@ class MainActivity : AppCompatActivity() {
                 }
                 alertDialog.dismiss()
             }
+    }
+
+    private fun startDataRefreshThread(context: Context) {
+        val handler = Handler(Looper.getMainLooper())
+        val refreshIntervalMillis = 15 * 1000L
+
+        val refreshRunnable = object : Runnable {
+            override fun run() {
+                if(networkUtils.isNetworkAvailable()) {
+                    fetchDataFromApi("metric", city)
+                    Toast.makeText(context, "Zaaktualizowano dane", Toast.LENGTH_SHORT).show()
+                    handler.postDelayed(this, refreshIntervalMillis)
+                }
+            }
+        }
+        handler.post(refreshRunnable)
+
     }
 
     override fun onStop() {
