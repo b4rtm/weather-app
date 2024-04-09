@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
@@ -127,6 +128,7 @@ class MainActivity : AppCompatActivity() {
             fetchDataFromApi("metric", city)
         } else {
             favouriteManager.getWeatherData(city)?.let { weatherViewModel.setWeatherData(it) }
+            Toast.makeText(this, "Dane mogą być nieaktualne. Brak połączenia z internetem", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -170,6 +172,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     favouriteManager.getWeatherData(city)
                         ?.let { weatherViewModel.setWeatherData(it) }
+                    Toast.makeText(this, "Dane mogą być nieaktualne. Brak połączenia z internetem", Toast.LENGTH_SHORT).show()
                 }
                 alertDialog.dismiss()
             }
