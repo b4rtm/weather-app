@@ -1,12 +1,14 @@
 package com.example.weatherapp
 
 import android.content.Context
+import android.widget.ImageButton
 import org.json.JSONObject
 
 
 class FavouriteManager(context: Context) {
 
-    private val sharedPreferences = context.getSharedPreferences("FavoriteCities", Context.MODE_PRIVATE)
+    private val sharedPreferences =
+        context.getSharedPreferences("FavoriteCities", Context.MODE_PRIVATE)
 
     fun addFavoriteCity(city: String) {
         val cities = getFavoriteCities().toMutableSet()
@@ -67,6 +69,29 @@ class FavouriteManager(context: Context) {
             )
         } else {
             null
+        }
+    }
+
+    fun setFavourite(
+        favouriteManager: FavouriteManager,
+        city: String,
+        buttonAddFavorites: ImageButton
+    ) {
+        val isFavorite = favouriteManager.isCityFavorite(city)
+        if (isFavorite) {
+            buttonAddFavorites.setImageResource(R.drawable.favorite_gold)
+        } else {
+            buttonAddFavorites.setImageResource(R.drawable.favorite)
+        }
+    }
+
+    public fun saveWeatherDataForFavouriteCities(
+        favouriteManager: FavouriteManager,
+        mainActivity: MainActivity
+    ) {
+        val favouriteCities = favouriteManager.getFavoriteCities()
+        for (cityItem in favouriteCities) {
+            mainActivity.fetchDataFromApi("metric", cityItem)
         }
     }
 }

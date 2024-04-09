@@ -19,13 +19,6 @@ class WeatherApi(
 
     val API : String = "94ef87a9d23828a17b8a8202eb185d1b"
 
-//    override fun onPreExecute() {
-//        super.onPreExecute()
-//        findViewById<ProgressBar>(R.id.loader).visibility = View.VISIBLE
-//        findViewById<RelativeLayout>(R.id.mainContainer).visibility = View.GONE
-//        findViewById<TextView>(R.id.errorText).visibility = View.GONE
-//    }
-
     override fun doInBackground(vararg params: String?): String? {
         var response:String?
         try{
