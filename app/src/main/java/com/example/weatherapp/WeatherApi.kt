@@ -102,7 +102,7 @@ class WeatherApi(
         }
 
 
-        return WeatherData(city, latitude, longitude, formattedDateTime, temperature, unit, pressure, description, humidity, windSpeed, windDeg, cloudiness)
+        return WeatherData(city, latitude, longitude, formattedDateTime, temperature, unit, pressure, description, humidity, windSpeed, windDeg, cloudiness, forecastDataList)
     }
 
 }

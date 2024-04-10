@@ -2,6 +2,7 @@ package com.example.weatherapp
 
 import android.content.Context
 import android.widget.ImageButton
+import org.json.JSONArray
 import org.json.JSONObject
 
 
@@ -46,6 +47,18 @@ class FavouriteManager(context: Context) {
         jsonObject.put("windDeg", weatherData.windDeg)
         jsonObject.put("clouds", weatherData.clouds)
 
+        val jsonArray = JSONArray()
+
+        weatherData.forecastData.forEach { forecastData ->
+            val jsonObject1 = JSONObject()
+            jsonObject1.put("temperature", forecastData.temperature)
+            jsonObject1.put("unit", forecastData.unit)
+            jsonObject1.put("date", forecastData.date)
+            jsonArray.put(jsonObject1)
+        }
+
+        jsonObject.put("forecastData", jsonArray)
+
         sharedPreferences.edit().putString(city, jsonObject.toString()).apply()
     }
 
@@ -53,6 +66,8 @@ class FavouriteManager(context: Context) {
         val jsonString = sharedPreferences.getString(city, null)
         return if (jsonString != null) {
             val jsonObject = JSONObject(jsonString)
+            val forecastDataList = getForecastDataList(jsonObject)
+
             WeatherData(
                 jsonObject.getString("city"),
                 jsonObject.getDouble("latitude"),
@@ -65,11 +80,30 @@ class FavouriteManager(context: Context) {
                 jsonObject.getInt("humidity"),
                 jsonObject.getDouble("windSpeed"),
                 jsonObject.getInt("windDeg"),
-                jsonObject.getInt("clouds")
+                jsonObject.getInt("clouds"),
+                forecastDataList
             )
         } else {
             null
         }
+    }
+
+    private fun getForecastDataList(jsonObject: JSONObject): MutableList<ForecastData> {
+        val jsonArray =
+            jsonObject.getJSONArray("forecastData") // Podaj nazwę tablicy z twojego JSON
+        val forecastDataList = mutableListOf<ForecastData>()
+
+        for (i in 0 until jsonArray.length()) {
+            val forecastObject = jsonArray.getJSONObject(i)
+
+            val temperature = forecastObject.getDouble("temperature") // Pobierasz temperaturę
+            val unit = forecastObject.getString("unit") // Pobierasz jednostkę
+            val date = forecastObject.getString("date") // Pobierasz datę
+
+            val forecastData = ForecastData(temperature, unit, date) // Tworzysz obiekt ForecastData
+            forecastDataList.add(forecastData) // Dodajesz obiekt do listy
+        }
+        return forecastDataList
     }
 
     fun setFavourite(
