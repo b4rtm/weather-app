@@ -1,4 +1,4 @@
-package com.example.weatherapp
+package com.example.weatherapp.data
 
 data class ForecastData(
     val temperature : Double,

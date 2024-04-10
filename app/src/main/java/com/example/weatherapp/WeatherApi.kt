@@ -2,6 +2,8 @@ package com.example.weatherapp
 
 import android.os.AsyncTask
 import android.util.Log
+import com.example.weatherapp.data.ForecastData
+import com.example.weatherapp.data.WeatherData
 import org.json.JSONObject
 
 import java.net.URL

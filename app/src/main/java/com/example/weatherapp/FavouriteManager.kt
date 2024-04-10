@@ -2,6 +2,8 @@ package com.example.weatherapp
 
 import android.content.Context
 import android.widget.ImageButton
+import com.example.weatherapp.data.ForecastData
+import com.example.weatherapp.data.WeatherData
 import org.json.JSONArray
 import org.json.JSONObject
 

@@ -3,6 +3,7 @@ package com.example.weatherapp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.weatherapp.data.WeatherData
 
 class WeatherViewModel : ViewModel() {
 
