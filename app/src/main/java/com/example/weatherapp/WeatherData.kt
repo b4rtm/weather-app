@@ -14,6 +14,7 @@ data class WeatherData(
     val humidity : Int,
     val windSpeed : Double,
     val windDeg : Int,
-    val clouds : Int
+    val clouds : Int,
+//    val forecastData: List<ForecastData>
 
 )

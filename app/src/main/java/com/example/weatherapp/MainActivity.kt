@@ -18,7 +18,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.example.weatherapp.refresh.DataRefreshScheduler
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
