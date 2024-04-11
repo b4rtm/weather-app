@@ -74,6 +74,7 @@ class WeatherApi(
         val weatherArray = weatherJsonObject.getJSONArray("weather")
         val weatherObject = weatherArray.getJSONObject(0)
         val description = weatherObject.getString("description")
+        val descriptionImage = weatherObject.getString("icon")
         val main = weatherJsonObject.getJSONObject("main")
         val temperature = main.getDouble("temp")
         val pressure = main.getInt("pressure")
@@ -104,7 +105,7 @@ class WeatherApi(
         }
 
 
-        return WeatherData(city, latitude, longitude, formattedDateTime, temperature, unit, pressure, description, humidity, windSpeed, windDeg, cloudiness, forecastDataList)
+        return WeatherData(city, latitude, longitude, formattedDateTime, temperature, unit, pressure, description,descriptionImage, humidity, windSpeed, windDeg, cloudiness, forecastDataList)
     }
 
 }

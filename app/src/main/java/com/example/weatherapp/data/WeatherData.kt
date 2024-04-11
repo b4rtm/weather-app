@@ -10,6 +10,7 @@ data class WeatherData(
     val unit : String,
     val pressure : Int,
     val description : String,
+    val icon : String,
 
     val humidity : Int,
     val windSpeed : Double,

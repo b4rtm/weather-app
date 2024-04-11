@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.WeatherViewModel
+import java.net.URI
 
 class TodayFragment : Fragment() {
 
@@ -19,8 +22,10 @@ class TodayFragment : Fragment() {
     private lateinit var preassureTextView: TextView
     private lateinit var descriptionTextView: TextView
     private lateinit var temperatureTextView: TextView
-
+    private lateinit var descriptionImage : ImageView
     private lateinit var viewModel: WeatherViewModel
+
+    private val baseIconUrl = "https://openweathermap.org/img/wn/"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,6 +43,7 @@ class TodayFragment : Fragment() {
         timeTextView = view.findViewById(R.id.time)
         preassureTextView = view.findViewById(R.id.pressure)
         descriptionTextView = view.findViewById(R.id.description)
+        descriptionImage = view.findViewById(R.id.description_image)
 
         viewModel.getWeatherData().observe(viewLifecycleOwner) { weatherData ->
             locationTextView.text = weatherData.city
@@ -51,6 +57,11 @@ class TodayFragment : Fragment() {
             timeTextView.text = weatherData.time
             preassureTextView.text = "${weatherData.pressure}"
             descriptionTextView.text = weatherData.description
+
+            Glide.with(this)
+                .load(baseIconUrl + weatherData.icon + "@2x.png")
+                .override(400, 400)
+                .into(descriptionImage)
         }
 
         return view

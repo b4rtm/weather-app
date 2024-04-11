@@ -44,6 +44,7 @@ class FavouriteManager(context: Context) {
         jsonObject.put("unit", weatherData.unit)
         jsonObject.put("pressure", weatherData.pressure)
         jsonObject.put("description", weatherData.description)
+        jsonObject.put("icon", weatherData.icon)
         jsonObject.put("humidity", weatherData.humidity)
         jsonObject.put("windSpeed", weatherData.windSpeed)
         jsonObject.put("windDeg", weatherData.windDeg)
@@ -79,6 +80,7 @@ class FavouriteManager(context: Context) {
                 jsonObject.getString("unit"),
                 jsonObject.getInt("pressure"),
                 jsonObject.getString("description"),
+                jsonObject.getString("icon"),
                 jsonObject.getInt("humidity"),
                 jsonObject.getDouble("windSpeed"),
                 jsonObject.getInt("windDeg"),
