@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.weatherapp.R
 import com.example.weatherapp.WeatherViewModel
-import java.net.URI
 
 class TodayFragment : Fragment() {
 
@@ -19,7 +18,7 @@ class TodayFragment : Fragment() {
     private lateinit var latitudeTextView: TextView
     private lateinit var longitudeTextView: TextView
     private lateinit var timeTextView: TextView
-    private lateinit var preassureTextView: TextView
+    private lateinit var pressureTextView: TextView
     private lateinit var descriptionTextView: TextView
     private lateinit var temperatureTextView: TextView
     private lateinit var descriptionImage : ImageView
@@ -41,7 +40,7 @@ class TodayFragment : Fragment() {
         latitudeTextView = view.findViewById(R.id.latitude)
         longitudeTextView = view.findViewById(R.id.longitude)
         timeTextView = view.findViewById(R.id.time)
-        preassureTextView = view.findViewById(R.id.pressure)
+        pressureTextView = view.findViewById(R.id.pressure)
         descriptionTextView = view.findViewById(R.id.description)
         descriptionImage = view.findViewById(R.id.description_image)
 
@@ -55,7 +54,7 @@ class TodayFragment : Fragment() {
             latitudeTextView.text = "${weatherData.latitude}"
             longitudeTextView.text = "${weatherData.longitude}"
             timeTextView.text = weatherData.time
-            preassureTextView.text = "${weatherData.pressure}"
+            pressureTextView.text = "${weatherData.pressure} hPa"
             descriptionTextView.text = weatherData.description
 
             Glide.with(this)

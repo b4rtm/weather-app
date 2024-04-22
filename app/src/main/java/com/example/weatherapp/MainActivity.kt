@@ -8,6 +8,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
@@ -16,6 +17,8 @@ import android.widget.ListView
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -43,13 +46,6 @@ class MainActivity : AppCompatActivity() {
         favouriteManager = FavouriteManager(this)
         networkUtils = NetworkUtils(this)
 
-        favouriteManager.removeFavoriteCity("lodz")
-        favouriteManager.removeFavoriteCity("turek")
-        favouriteManager.removeFavoriteCity("Poznan")
-
-//        val dataRefreshScheduler = DataRefreshScheduler(this, this)
-//        dataRefreshScheduler.scheduleDataRefresh()
-
         city = favouriteManager.getFavoriteCities().firstOrNull() ?: "Warsaw"
         editTextCity = findViewById(R.id.editTextCity)
         spinnerUnits = findViewById(R.id.spinnerUnits)
@@ -59,6 +55,12 @@ class MainActivity : AppCompatActivity() {
         imageButtonRefresh.setOnClickListener {
             fetchDataFromApi(convertItemToUnit(spinnerUnits.selectedItem.toString()), city)
         }
+
+        val unitOptions = resources.getStringArray(R.array.unit_options)
+
+        val adapterSpinner = ArrayAdapter(this, R.layout.custom_spinner_item, unitOptions)
+        adapterSpinner.setDropDownViewResource(R.layout.custom_spinner_dropdown_item)
+        spinnerUnits.adapter = adapterSpinner
 
         buttonFavorites = findViewById(R.id.imageButtonFavorites)
         buttonFavorites.setOnClickListener {
@@ -86,10 +88,13 @@ class MainActivity : AppCompatActivity() {
                 city = editTextCity.text.toString()
                 fetchDataFromApi(convertItemToUnit(spinnerUnits.selectedItem.toString()), city)
                 favouriteManager.setFavourite(favouriteManager, city, buttonAddFavorites)
+                hideKeyboard()
+                editTextCity.clearFocus()
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
         }
+
 
         weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
         adapter = FragmentPageAdapter(supportFragmentManager, lifecycle)
@@ -154,6 +159,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun showFavoriteCitiesDialog() {
         val favoriteCities = favouriteManager.getFavoriteCities()
         val favoriteCitiesArray = favoriteCities.toMutableList()
@@ -172,6 +178,11 @@ class MainActivity : AppCompatActivity() {
         val alertDialog = alertDialogBuilder.create()
         alertDialog.show()
 
+        // Pobranie przycisku Close i zmiana jego wyglądu
+        val positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        positiveButton.setTextColor(ContextCompat.getColor(this, R.color.white)) // Ustawienie koloru tekstu
+        positiveButton.setBackgroundColor(ContextCompat.getColor(this, R.color.blue)) // Ustawienie koloru tła
+
         listViewFavoriteCities.onItemClickListener =
             AdapterView.OnItemClickListener { _, _, position, _ ->
                 city = favoriteCitiesArray[position]
@@ -189,7 +200,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun startDataRefreshThread(context: Context) {
         val handler = Handler(Looper.getMainLooper())
-        val refreshIntervalMillis = 15 * 1000L
+        val refreshIntervalMillis = 60 * 1000L
 
         val refreshRunnable = object : Runnable {
             override fun run() {
@@ -207,6 +218,11 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         favouriteManager.saveWeatherDataForFavouriteCities(favouriteManager, this)
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(editTextCity.windowToken, 0)
     }
 
 }

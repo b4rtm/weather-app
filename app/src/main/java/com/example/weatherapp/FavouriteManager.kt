@@ -57,6 +57,7 @@ class FavouriteManager(context: Context) {
             jsonObject1.put("temperature", forecastData.temperature)
             jsonObject1.put("unit", forecastData.unit)
             jsonObject1.put("date", forecastData.date)
+            jsonObject1.put("icon", forecastData.icon)
             jsonArray.put(jsonObject1)
         }
 
@@ -94,18 +95,19 @@ class FavouriteManager(context: Context) {
 
     private fun getForecastDataList(jsonObject: JSONObject): MutableList<ForecastData> {
         val jsonArray =
-            jsonObject.getJSONArray("forecastData") // Podaj nazwę tablicy z twojego JSON
+            jsonObject.getJSONArray("forecastData")
         val forecastDataList = mutableListOf<ForecastData>()
 
         for (i in 0 until jsonArray.length()) {
             val forecastObject = jsonArray.getJSONObject(i)
 
-            val temperature = forecastObject.getDouble("temperature") // Pobierasz temperaturę
-            val unit = forecastObject.getString("unit") // Pobierasz jednostkę
-            val date = forecastObject.getString("date") // Pobierasz datę
+            val temperature = forecastObject.getDouble("temperature")
+            val unit = forecastObject.getString("unit")
+            val date = forecastObject.getString("date")
+            val icon = forecastObject.getString("icon")
 
-            val forecastData = ForecastData(temperature, unit, date) // Tworzysz obiekt ForecastData
-            forecastDataList.add(forecastData) // Dodajesz obiekt do listy
+            val forecastData = ForecastData(temperature, unit, date, icon)
+            forecastDataList.add(forecastData)
         }
         return forecastDataList
     }

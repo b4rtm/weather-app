@@ -92,14 +92,14 @@ class WeatherApi(
 
         val firstDay = forecastList.getJSONObject(0)
         val forecastDataList = mutableListOf<ForecastData>()
-        forecastDataList.add(ForecastData(firstDay.getJSONObject("main").getDouble("temp"), unit, firstDay.getString("dt_txt").substring(0,10)))
+        forecastDataList.add(ForecastData(firstDay.getJSONObject("main").getDouble("temp"), unit, firstDay.getString("dt_txt").substring(0,10), firstDay.getJSONArray("weather").getJSONObject(0).getString("icon")))
 
         for (i in 1 until forecastList.length()) {
             val forecastObject = forecastList.getJSONObject(i)
             val dateTime = forecastObject.getString("dt_txt")
             if (dateTime.endsWith("12:00:00") && !dateTime.startsWith(firstDay.getString("dt_txt").substring(0,10))) {
                 val temp = forecastObject.getJSONObject("main").getDouble("temp")
-                val forecastData = ForecastData(temp, unit, dateTime.substring(0,10))
+                val forecastData = ForecastData(temp, unit, dateTime.substring(0,10), forecastObject.getJSONArray("weather").getJSONObject(0).getString("icon"))
                 forecastDataList.add(forecastData)
             }
         }
