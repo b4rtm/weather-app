@@ -20,7 +20,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="#6FBBF8"
+            android:background= "#95D9DF"
             app:titleTextColor="#FFFFFF" >
 <!--            app:popupTheme="@style/AppTheme.PopupOverlay"-->
 
@@ -51,7 +51,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#6FBBF8"
+                    android:background= "#95D9DF"
                     android:contentDescription="Favorites"
                     android:scaleType="fitStart"
                     android:src="@drawable/stars" />
@@ -61,7 +61,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#6FBBF8"
+                    android:background= "#95D9DF"
                     android:contentDescription="Favorites"
                     android:scaleType="fitStart"
                     android:src="@drawable/favorite" />
@@ -71,7 +71,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#6FBBF8"
+                    android:background= "#95D9DF"
                     android:contentDescription="Refresh"
                     android:scaleType="fitStart"
                     android:src="@drawable/refresh_icon" />
@@ -84,15 +84,18 @@
 
 
     <com.google.android.material.tabs.TabLayout
+        android:background= "@drawable/app_bar_gradient"
+
         android:id="@+id/tabLayout"
         android:layout_width="0dp"
         android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:tabIndicator="@drawable/tab_indicator"
         app:tabMode="fixed"
+        app:tabTextColor="@color/white"
         app:tabIndicatorAnimationMode="elastic"
         app:tabIndicatorColor="@null"
-        app:tabSelectedTextColor="@color/black"
+        app:tabSelectedTextColor="#D8CACA"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
