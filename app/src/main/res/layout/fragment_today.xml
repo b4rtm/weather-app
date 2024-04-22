@@ -6,8 +6,7 @@
     android:background="@drawable/gradient_background"
     tools:context=".fragments.TodayFragment"
     android:gravity="center"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/location"
@@ -15,18 +14,37 @@
         android:layout_height="wrap_content"
         android:text="Location"
         android:textColor="#FFFFFF"
-        android:textSize="26sp" />
+        android:layout_marginBottom="35dp"
+        android:textSize="40sp" />
 
-    <TextView
-        android:id="@+id/time"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="time" />
+        android:layout_marginBottom="35dp">
+        <TextView
+            android:id="@+id/timeDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:text="Last update:"
+            android:layout_marginRight="10dp"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/time"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:text="time" />
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textSize="50sp"
         android:text="Temperature" />
 
     <ImageView
@@ -38,12 +56,18 @@
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textSize="35sp"
+        android:layout_marginBottom="35dp"
         android:text="description" />
 
     <TextView
         android:id="@+id/pressure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:layout_marginBottom="25dp"
         android:text="pressure" />
 
     <LinearLayout
@@ -51,18 +75,39 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/latitudeDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:layout_marginRight="10dp"
+            android:text="latitude:" />
+
+        <TextView
             android:id="@+id/latitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="latitude" />
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:text="latitudeVal" />
         <Space
             android:layout_width="30dp"
             android:layout_height="0dp" />
 
         <TextView
+            android:id="@+id/longitudeDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:layout_marginRight="10dp"
+            android:text="longitude:" />
+        <TextView
             android:id="@+id/longitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
             android:text="longitude" />
 
 
