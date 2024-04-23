@@ -109,8 +109,6 @@
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:text="longitude" />
-
-
     </LinearLayout>
 
 
