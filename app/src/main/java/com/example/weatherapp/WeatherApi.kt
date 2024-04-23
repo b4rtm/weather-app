@@ -76,7 +76,7 @@ class WeatherApi(
         val description = weatherObject.getString("description")
         val descriptionImage = weatherObject.getString("icon")
         val main = weatherJsonObject.getJSONObject("main")
-        val temperature = main.getDouble("temp")
+        val temperature = String.format("%.1f", main.getDouble("temp")).replace(',', '.')
         val pressure = main.getInt("pressure")
         val humidity = main.getInt("humidity")
         val wind = weatherJsonObject.getJSONObject("wind")
@@ -92,13 +92,13 @@ class WeatherApi(
 
         val firstDay = forecastList.getJSONObject(0)
         val forecastDataList = mutableListOf<ForecastData>()
-        forecastDataList.add(ForecastData(firstDay.getJSONObject("main").getDouble("temp"), unit, firstDay.getString("dt_txt").substring(0,10), firstDay.getJSONArray("weather").getJSONObject(0).getString("icon")))
+        forecastDataList.add(ForecastData(Math.round(firstDay.getJSONObject("main").getDouble("temp") * 10).toDouble() /10, unit, firstDay.getString("dt_txt").substring(0,10), firstDay.getJSONArray("weather").getJSONObject(0).getString("icon")))
 
         for (i in 1 until forecastList.length()) {
             val forecastObject = forecastList.getJSONObject(i)
             val dateTime = forecastObject.getString("dt_txt")
             if (dateTime.endsWith("12:00:00") && !dateTime.startsWith(firstDay.getString("dt_txt").substring(0,10))) {
-                val temp = forecastObject.getJSONObject("main").getDouble("temp")
+                val temp = Math.round(forecastObject.getJSONObject("main").getDouble("temp") * 10).toDouble()/10
                 val forecastData = ForecastData(temp, unit, dateTime.substring(0,10), forecastObject.getJSONArray("weather").getJSONObject(0).getString("icon"))
                 forecastDataList.add(forecastData)
             }

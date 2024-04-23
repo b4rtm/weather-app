@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:text="Location"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
+        android:textSize="60sp"
+        android:layout_gravity="center"
         android:layout_margin="16dp"/>
 
     <LinearLayout
@@ -25,8 +26,8 @@
 
         <ImageView
             android:id="@+id/day1IconImageView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:contentDescription="Weather Icon"
             android:layout_marginEnd="8dp"/>
 
@@ -37,7 +38,8 @@
             android:layout_weight="1"
             android:text="Day 1"
             android:textColor="@android:color/white"
-            android:textSize="16sp"/>
+            android:layout_marginRight="10dp"
+            android:textSize="25sp"/>
 
         <TextView
             android:id="@+id/day1TemperatureTextView"
@@ -45,7 +47,144 @@
             android:layout_height="wrap_content"
             android:text="25°C"
             android:textColor="@android:color/white"
-            android:textSize="16sp"/>
+            android:textSize="35sp"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/day2IconImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="Weather Icon"
+            android:layout_marginEnd="8dp"/>
+
+        <TextView
+            android:id="@+id/day2TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Day 2"
+            android:textColor="@android:color/white"
+            android:layout_marginRight="10dp"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:id="@+id/day2TemperatureTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25°C"
+            android:textColor="@android:color/white"
+            android:textSize="35sp"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/day3IconImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="Weather Icon"
+            android:layout_marginEnd="8dp"/>
+
+        <TextView
+            android:id="@+id/day3TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Day 3"
+            android:textColor="@android:color/white"
+            android:layout_marginRight="10dp"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:id="@+id/day3TemperatureTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25°C"
+            android:textColor="@android:color/white"
+            android:textSize="35sp"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/day4IconImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="Weather Icon"
+            android:layout_marginEnd="8dp"/>
+
+        <TextView
+            android:id="@+id/day4TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Day 4"
+            android:textColor="@android:color/white"
+            android:layout_marginRight="10dp"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:id="@+id/day4TemperatureTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25°C"
+            android:textColor="@android:color/white"
+            android:textSize="35sp"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/day5IconImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="Weather Icon"
+            android:layout_marginEnd="8dp"/>
+
+        <TextView
+            android:id="@+id/day5TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Day 5"
+            android:textColor="@android:color/white"
+            android:layout_marginRight="10dp"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:id="@+id/day5TemperatureTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25°C"
+            android:textColor="@android:color/white"
+            android:textSize="35sp"
+            android:layout_marginRight="10dp"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -16,11 +16,14 @@ class WeekForecastFragment : Fragment() {
 
     private val baseIconUrl = "https://openweathermap.org/img/wn/"
 
-    private lateinit var descriptionImage : ImageView
-    private lateinit var temperatureTextView: TextView
     private lateinit var locationTextView: TextView
     private lateinit var viewModel: WeatherViewModel
 
+    data class DayViews(
+        val iconImageView: ImageView,
+        val dayTextView: TextView,
+        val temperatureTextView: TextView
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,27 +33,55 @@ class WeekForecastFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_week_forecast, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(WeatherViewModel::class.java)
 
-        descriptionImage = view.findViewById(R.id.day1IconImageView)
-        temperatureTextView = view.findViewById(R.id.day1TemperatureTextView)
         locationTextView = view.findViewById(R.id.location)
+
+        val dayViews = arrayOf(
+            DayViews(
+                view.findViewById(R.id.day1IconImageView),
+                view.findViewById(R.id.day1TextView),
+                view.findViewById(R.id.day1TemperatureTextView)
+            ),
+            DayViews(
+                view.findViewById(R.id.day2IconImageView),
+                view.findViewById(R.id.day2TextView),
+                view.findViewById(R.id.day2TemperatureTextView)
+            ),
+            DayViews(
+                view.findViewById(R.id.day3IconImageView),
+                view.findViewById(R.id.day3TextView),
+                view.findViewById(R.id.day3TemperatureTextView)
+            ),
+            DayViews(
+                view.findViewById(R.id.day4IconImageView),
+                view.findViewById(R.id.day4TextView),
+                view.findViewById(R.id.day4TemperatureTextView)
+            ),
+            DayViews(
+                view.findViewById(R.id.day5IconImageView),
+                view.findViewById(R.id.day5TextView),
+                view.findViewById(R.id.day5TemperatureTextView)
+            )
+        )
 
         viewModel.getWeatherData().observe(viewLifecycleOwner) { weatherData ->
             locationTextView.text = weatherData.city
 
+            dayViews.forEachIndexed { index, (iconImageView, dayTextView, temperatureTextView) ->
+                val dayForecast = weatherData.forecastData[index]
 
-            when (weatherData.unit) {
-                "metric" -> temperatureTextView.text = "${weatherData.forecastData.get(0).temperature}°C"
-                "standard" -> temperatureTextView.text = "${weatherData.forecastData.get(0).temperature} K"
-                "imperial" -> temperatureTextView.text = "${weatherData.forecastData.get(0).temperature}°F"
+                dayTextView.text = dayForecast.date
+                when (weatherData.unit) {
+                    "metric" -> temperatureTextView.text = "${dayForecast.temperature}°C"
+                    "standard" -> temperatureTextView.text = "${dayForecast.temperature} K"
+                    "imperial" -> temperatureTextView.text = "${dayForecast.temperature}°F"
+                }
+
+                Glide.with(this)
+                    .load(baseIconUrl + dayForecast.icon + "@2x.png")
+                    .override(200, 200)
+                    .into(iconImageView)
+            }
         }
-
-        Glide.with(this)
-            .load(baseIconUrl + weatherData.icon + "@2x.png")
-            .override(200, 200)
-            .into(descriptionImage)
-    }
-
-
 
         return view
     }

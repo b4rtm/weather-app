@@ -77,7 +77,7 @@ class FavouriteManager(context: Context) {
                 jsonObject.getDouble("latitude"),
                 jsonObject.getDouble("longitude"),
                 jsonObject.getString("time"),
-                jsonObject.getDouble("temperature"),
+                jsonObject.getString("temperature"),
                 jsonObject.getString("unit"),
                 jsonObject.getInt("pressure"),
                 jsonObject.getString("description"),
