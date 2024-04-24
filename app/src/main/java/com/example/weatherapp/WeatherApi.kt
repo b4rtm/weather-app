@@ -2,6 +2,7 @@ package com.example.weatherapp
 
 import android.os.AsyncTask
 import android.util.Log
+import android.widget.Toast
 import com.example.weatherapp.data.ForecastData
 import com.example.weatherapp.data.WeatherData
 import org.json.JSONObject
@@ -55,6 +56,9 @@ class WeatherApi(
                 }
                 viewModel.setWeatherData(weatherData)
                 mainActivity.city = weatherData.city
+            }
+            else {
+                Toast.makeText(mainActivity, "Podane miasto nie istnieje", Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
             e.printStackTrace()
