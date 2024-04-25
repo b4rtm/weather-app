@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="today_header">100dp</dimen>
+    <dimen name="today_data">40dp</dimen>
+    <dimen name="today_data_larger">55dp</dimen>
+    <dimen name="font">55dp</dimen>
+    <dimen name="header_font">105dp</dimen>
+
+    <dimen name="forecast_day_font">55sp</dimen>
+    <dimen name="forecast_temp_font">60sp</dimen>
+    <dimen name="image_dim">200dp</dimen>
+
+    <dimen name="tab_height">100dp</dimen>
+    <dimen name="bar_height">65dp</dimen>
+
+</resources>

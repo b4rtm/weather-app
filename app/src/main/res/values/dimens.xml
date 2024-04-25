@@ -6,8 +6,18 @@
     <dimen name="font">25sp</dimen>
     <dimen name="forecast_font">25sp</dimen>
     <dimen name="forecast_temp_font">35sp</dimen>
-    <dimen name="padding">8dp</dimen>
     <dimen name="image_dim">100dp</dimen>
-    <dimen name="margin_hor">0dp</dimen>
+
+
+
+    <dimen name="today_header">40dp</dimen>
+    <dimen name="today_data_larger">35dp</dimen>
+    <dimen name="today_data">20dp</dimen>
+    <dimen name="forecast_day_font">25sp</dimen>
+
+    <dimen name="tab_height">60dp</dimen>
+    <dimen name="bar_height">50dp</dimen>
+    <dimen name="image_dim_sm">160sp</dimen>
+
 
 </resources>

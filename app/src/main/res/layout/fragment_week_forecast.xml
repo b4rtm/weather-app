@@ -26,8 +26,8 @@
 
         <ImageView
             android:id="@+id/day1IconImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/image_dim"
+            android:layout_height="@dimen/image_dim"
             android:contentDescription="Weather Icon"
             android:layout_marginEnd="8dp"/>
 
@@ -39,7 +39,7 @@
             android:text="Day 1"
             android:textColor="@android:color/white"
             android:layout_marginRight="10dp"
-            android:textSize="25sp"/>
+            android:textSize="@dimen/forecast_day_font"/>
 
         <TextView
             android:id="@+id/day1TemperatureTextView"
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:text="25°C"
             android:textColor="@android:color/white"
-            android:textSize="35sp"
+            android:textSize="@dimen/forecast_temp_font"
             android:layout_marginRight="10dp"/>
     </LinearLayout>
 
@@ -60,8 +60,8 @@
 
         <ImageView
             android:id="@+id/day2IconImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/image_dim"
+            android:layout_height="@dimen/image_dim"
             android:contentDescription="Weather Icon"
             android:layout_marginEnd="8dp"/>
 
@@ -73,7 +73,7 @@
             android:text="Day 2"
             android:textColor="@android:color/white"
             android:layout_marginRight="10dp"
-            android:textSize="25sp"/>
+            android:textSize="@dimen/forecast_day_font"/>
 
         <TextView
             android:id="@+id/day2TemperatureTextView"
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:text="25°C"
             android:textColor="@android:color/white"
-            android:textSize="35sp"
+            android:textSize="@dimen/forecast_temp_font"
             android:layout_marginRight="10dp"/>
     </LinearLayout>
 
@@ -94,8 +94,8 @@
 
         <ImageView
             android:id="@+id/day3IconImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/image_dim"
+            android:layout_height="@dimen/image_dim"
             android:contentDescription="Weather Icon"
             android:layout_marginEnd="8dp"/>
 
@@ -107,7 +107,7 @@
             android:text="Day 3"
             android:textColor="@android:color/white"
             android:layout_marginRight="10dp"
-            android:textSize="25sp"/>
+            android:textSize="@dimen/forecast_day_font"/>
 
         <TextView
             android:id="@+id/day3TemperatureTextView"
@@ -115,7 +115,7 @@
             android:layout_height="wrap_content"
             android:text="25°C"
             android:textColor="@android:color/white"
-            android:textSize="35sp"
+            android:textSize="@dimen/forecast_temp_font"
             android:layout_marginRight="10dp"/>
     </LinearLayout>
 
@@ -128,8 +128,8 @@
 
         <ImageView
             android:id="@+id/day4IconImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/image_dim"
+            android:layout_height="@dimen/image_dim"
             android:contentDescription="Weather Icon"
             android:layout_marginEnd="8dp"/>
 
@@ -141,7 +141,7 @@
             android:text="Day 4"
             android:textColor="@android:color/white"
             android:layout_marginRight="10dp"
-            android:textSize="25sp"/>
+            android:textSize="@dimen/forecast_day_font"/>
 
         <TextView
             android:id="@+id/day4TemperatureTextView"
@@ -149,7 +149,7 @@
             android:layout_height="wrap_content"
             android:text="25°C"
             android:textColor="@android:color/white"
-            android:textSize="35sp"
+            android:textSize="@dimen/forecast_temp_font"
             android:layout_marginRight="10dp"/>
     </LinearLayout>
 
@@ -162,8 +162,8 @@
 
         <ImageView
             android:id="@+id/day5IconImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/image_dim"
+            android:layout_height="@dimen/image_dim"
             android:contentDescription="Weather Icon"
             android:layout_marginEnd="8dp"/>
 
@@ -175,7 +175,7 @@
             android:text="Day 5"
             android:textColor="@android:color/white"
             android:layout_marginRight="10dp"
-            android:textSize="25sp"/>
+            android:textSize="@dimen/forecast_day_font"/>
 
         <TextView
             android:id="@+id/day5TemperatureTextView"
@@ -183,7 +183,7 @@
             android:layout_height="wrap_content"
             android:text="25°C"
             android:textColor="@android:color/white"
-            android:textSize="35sp"
+            android:textSize="@dimen/forecast_temp_font"
             android:layout_marginRight="10dp"/>
     </LinearLayout>
 

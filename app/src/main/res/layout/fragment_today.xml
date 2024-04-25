@@ -15,7 +15,7 @@
         android:text="Location"
         android:textColor="#FFFFFF"
         android:layout_marginBottom="35dp"
-        android:textSize="40sp" />
+        android:textSize="@dimen/today_header" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -28,10 +28,10 @@
             android:textColor="#FFFFFF"
             android:text="Last update:"
             android:layout_marginRight="10dp"
-            android:textSize="20sp"/>
+            android:textSize="@dimen/today_data"/>
         <TextView
             android:id="@+id/time"
-            android:textSize="20sp"
+            android:textSize="@dimen/today_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FFFFFF"
-        android:textSize="50sp"
+        android:textSize="@dimen/today_data_larger"
         android:text="Temperature" />
 
     <ImageView
@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FFFFFF"
-        android:textSize="35sp"
+        android:textSize="@dimen/today_data_larger"
         android:layout_marginBottom="35dp"
         android:text="description" />
 
@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#FFFFFF"
-        android:textSize="15sp"
+        android:textSize="@dimen/today_data"
         android:layout_marginBottom="25dp"
         android:text="pressure" />
 
@@ -79,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textSize="@dimen/today_data"
             android:layout_marginRight="10dp"
             android:text="latitude:" />
 
@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textSize="@dimen/today_data"
             android:text="latitudeVal" />
         <Space
             android:layout_width="30dp"
@@ -99,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textSize="@dimen/today_data"
             android:layout_marginRight="10dp"
             android:text="longitude:" />
         <TextView
@@ -107,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textSize="@dimen/today_data"
             android:text="longitude" />
     </LinearLayout>
 

@@ -14,13 +14,14 @@
         android:layout_height="wrap_content"
         android:text="Location"
         android:textColor="#FFFFFF"
-        android:layout_marginBottom="35dp"
-        android:textSize="50sp" />
+        android:layout_marginBottom="@dimen/margin_bot"
+        android:layout_marginTop="5dp"
+        android:textSize="@dimen/header_font" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="35dp">
+        android:layout_marginBottom="@dimen/margin_bot">
         <TextView
             android:id="@+id/humDesc"
             android:layout_width="wrap_content"
@@ -28,10 +29,10 @@
             android:textColor="#FFFFFF"
             android:text="Humidity:"
             android:layout_marginRight="10dp"
-            android:textSize="30sp"/>
+            android:textSize="@dimen/font"/>
         <TextView
             android:id="@+id/humidity"
-            android:textSize="30sp"
+            android:textSize="@dimen/font"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
@@ -48,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:textSize="25sp"
+            android:textSize="@dimen/font"
             android:layout_marginRight="10dp"
             android:text="Wind speed:" />
 
@@ -57,20 +58,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:textSize="25sp"
+            android:textSize="@dimen/font"
             android:text="3 km/h" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="35dp">
+        android:layout_marginBottom="@dimen/margin_bot">
         <TextView
             android:id="@+id/windDegreeDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:textSize="25sp"
+            android:textSize="@dimen/font"
             android:layout_marginRight="10dp"
             android:text="Wind degree:" />
         <TextView
@@ -78,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:textSize="25sp"
+            android:textSize="@dimen/font"
             android:text="150°" />
     </LinearLayout>
 
@@ -86,7 +87,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="35dp">
+        android:layout_marginBottom="@dimen/margin_bot">
         <TextView
             android:id="@+id/cloudsDesc"
             android:layout_width="wrap_content"
@@ -94,10 +95,10 @@
             android:textColor="#FFFFFF"
             android:text="Clouds:"
             android:layout_marginRight="10dp"
-            android:textSize="30sp"/>
+            android:textSize="@dimen/font"/>
         <TextView
             android:id="@+id/clouds"
-            android:textSize="30sp"
+            android:textSize="@dimen/font"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"

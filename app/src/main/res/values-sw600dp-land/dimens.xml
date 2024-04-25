@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="font">50sp</dimen>
+    <dimen name="image_dim">200sp</dimen>
+    <dimen name="image_dim_sm">100sp</dimen>
+
+</resources>

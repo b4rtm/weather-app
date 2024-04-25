@@ -19,11 +19,9 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="@dimen/bar_height"
             android:background= "#95D9DF"
             app:titleTextColor="#FFFFFF" >
-<!--            app:popupTheme="@style/AppTheme.PopupOverlay"-->
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -94,7 +92,7 @@
 
         android:id="@+id/tabLayout"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/tab_height"
         app:layout_constraintBottom_toBottomOf="parent"
         app:tabIndicator="@drawable/tab_indicator"
         app:tabMode="fixed"
@@ -103,7 +101,7 @@
         app:tabIndicatorColor="@null"
         app:tabSelectedTextColor="#D8CACA"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager2"

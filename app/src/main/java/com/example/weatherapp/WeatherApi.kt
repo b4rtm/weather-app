@@ -58,7 +58,7 @@ class WeatherApi(
                 mainActivity.city = weatherData.city
             }
             else {
-                Toast.makeText(mainActivity, "Podane miasto nie istnieje", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mainActivity, "This city does not exist.", Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
             e.printStackTrace()

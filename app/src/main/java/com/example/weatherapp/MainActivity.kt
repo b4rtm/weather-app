@@ -85,9 +85,8 @@ class MainActivity : AppCompatActivity() {
 
         editTextCity.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                city = editTextCity.text.toString()
-                fetchDataFromApi(convertItemToUnit(spinnerUnits.selectedItem.toString()), city)
-                favouriteManager.setFavourite(favouriteManager, city, buttonAddFavorites)
+                fetchDataFromApi(convertItemToUnit(spinnerUnits.selectedItem.toString()), editTextCity.text.toString())
+                favouriteManager.setFavourite(favouriteManager,  editTextCity.text.toString(), buttonAddFavorites)
                 hideKeyboard()
                 editTextCity.clearFocus()
                 return@setOnEditorActionListener true
