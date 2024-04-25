@@ -20,15 +20,11 @@ class WeekForecastFragment : Fragment() {
     private lateinit var viewModel: WeatherViewModel
 
     data class DayViews(
-        val iconImageView: ImageView,
-        val dayTextView: TextView,
-        val temperatureTextView: TextView
+        val iconImageView: ImageView, val dayTextView: TextView, val temperatureTextView: TextView
     )
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_week_forecast, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(WeatherViewModel::class.java)
@@ -40,23 +36,19 @@ class WeekForecastFragment : Fragment() {
                 view.findViewById(R.id.day1IconImageView),
                 view.findViewById(R.id.day1TextView),
                 view.findViewById(R.id.day1TemperatureTextView)
-            ),
-            DayViews(
+            ), DayViews(
                 view.findViewById(R.id.day2IconImageView),
                 view.findViewById(R.id.day2TextView),
                 view.findViewById(R.id.day2TemperatureTextView)
-            ),
-            DayViews(
+            ), DayViews(
                 view.findViewById(R.id.day3IconImageView),
                 view.findViewById(R.id.day3TextView),
                 view.findViewById(R.id.day3TemperatureTextView)
-            ),
-            DayViews(
+            ), DayViews(
                 view.findViewById(R.id.day4IconImageView),
                 view.findViewById(R.id.day4TextView),
                 view.findViewById(R.id.day4TemperatureTextView)
-            ),
-            DayViews(
+            ), DayViews(
                 view.findViewById(R.id.day5IconImageView),
                 view.findViewById(R.id.day5TextView),
                 view.findViewById(R.id.day5TemperatureTextView)
@@ -76,9 +68,7 @@ class WeekForecastFragment : Fragment() {
                     "imperial" -> temperatureTextView.text = "${dayForecast.temperature}°F"
                 }
 
-                Glide.with(this)
-                    .load(baseIconUrl + dayForecast.icon + "@2x.png")
-                    .override(200, 200)
+                Glide.with(this).load(baseIconUrl + dayForecast.icon + "@2x.png").override(200, 200)
                     .into(iconImageView)
             }
         }

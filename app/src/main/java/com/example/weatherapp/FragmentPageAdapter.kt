@@ -9,8 +9,7 @@ import com.example.weatherapp.fragments.TodayFragment
 import com.example.weatherapp.fragments.WeekForecastFragment
 
 class FragmentPageAdapter(
-    fragmentManager: FragmentManager,
-    lifecycle:Lifecycle
+    fragmentManager: FragmentManager, lifecycle: Lifecycle
 
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
@@ -18,11 +17,10 @@ class FragmentPageAdapter(
     }
 
     override fun createFragment(position: Int): Fragment {
-        return if(position == 0)
-            AdditionalInfoFragment()
-        else if (position == 1)
-            TodayFragment()
-        else
-            WeekForecastFragment()
+        return when (position) {
+            0 -> AdditionalInfoFragment()
+            1 -> TodayFragment()
+            else -> WeekForecastFragment()
+        }
     }
 }

@@ -21,15 +21,13 @@ class TodayFragment : Fragment() {
     private lateinit var pressureTextView: TextView
     private lateinit var descriptionTextView: TextView
     private lateinit var temperatureTextView: TextView
-    private lateinit var descriptionImage : ImageView
+    private lateinit var descriptionImage: ImageView
     private lateinit var viewModel: WeatherViewModel
 
     private val baseIconUrl = "https://openweathermap.org/img/wn/"
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_today, container, false)
 
@@ -57,9 +55,7 @@ class TodayFragment : Fragment() {
             pressureTextView.text = "${weatherData.pressure} hPa"
             descriptionTextView.text = weatherData.description
 
-            Glide.with(this)
-                .load(baseIconUrl + weatherData.icon + "@2x.png")
-                .override(400, 400)
+            Glide.with(this).load(baseIconUrl + weatherData.icon + "@2x.png").override(400, 400)
                 .into(descriptionImage)
         }
 

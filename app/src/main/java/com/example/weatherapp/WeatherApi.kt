@@ -20,17 +20,23 @@ class WeatherApi(
 ) : AsyncTask<String, Void, String>() {
 
 
-    val API : String = "94ef87a9d23828a17b8a8202eb185d1b"
+    val API: String = "94ef87a9d23828a17b8a8202eb185d1b"
 
     override fun doInBackground(vararg params: String?): String? {
-        var response1:String?
-        var response2:String?
-        try{
-            response1 = URL("https://api.openweathermap.org/data/2.5/weather?q=$city&units=$unit&appid=$API").readText(Charsets.UTF_8)
-            response2 = URL("https://api.openweathermap.org/data/2.5/forecast?q=$city&units=$unit&appid=$API").readText(Charsets.UTF_8)
+        var response1: String?
+        var response2: String?
+        try {
+            response1 =
+                URL("https://api.openweathermap.org/data/2.5/weather?q=$city&units=$unit&appid=$API").readText(
+                    Charsets.UTF_8
+                )
+            response2 =
+                URL("https://api.openweathermap.org/data/2.5/forecast?q=$city&units=$unit&appid=$API").readText(
+                    Charsets.UTF_8
+                )
 
 
-        }catch (e: Exception){
+        } catch (e: Exception) {
             response1 = null
             response2 = null
         }
@@ -50,22 +56,19 @@ class WeatherApi(
                 val weatherData = parseWeatherData(result)
                 Log.d("city", weatherData.city)
                 Log.d("citues", favouriteManager.getFavoriteCities().toString())
-                if(favouriteManager.isCityFavorite(weatherData.city)){
-                    favouriteManager.saveWeatherData(weatherData.city,weatherData)
-                    Log.d("Xdd",favouriteManager.getWeatherData(weatherData.city).toString())
+                if (favouriteManager.isCityFavorite(weatherData.city)) {
+                    favouriteManager.saveWeatherData(weatherData.city, weatherData)
+                    Log.d("Xdd", favouriteManager.getWeatherData(weatherData.city).toString())
                 }
                 viewModel.setWeatherData(weatherData)
                 mainActivity.city = weatherData.city
-            }
-            else {
+            } else {
                 Toast.makeText(mainActivity, "This city does not exist.", Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
-
-
 
 
     private fun parseWeatherData(jsonString: String): WeatherData {
@@ -96,20 +99,53 @@ class WeatherApi(
 
         val firstDay = forecastList.getJSONObject(0)
         val forecastDataList = mutableListOf<ForecastData>()
-        forecastDataList.add(ForecastData(Math.round(firstDay.getJSONObject("main").getDouble("temp") * 10).toDouble() /10, unit, firstDay.getString("dt_txt").substring(0,10), firstDay.getJSONArray("weather").getJSONObject(0).getString("icon")))
+        forecastDataList.add(
+            ForecastData(
+                Math.round(
+                    firstDay.getJSONObject("main").getDouble("temp") * 10
+                ).toDouble() / 10,
+                unit,
+                firstDay.getString("dt_txt").substring(0, 10),
+                firstDay.getJSONArray("weather").getJSONObject(0).getString("icon")
+            )
+        )
 
         for (i in 1 until forecastList.length()) {
             val forecastObject = forecastList.getJSONObject(i)
             val dateTime = forecastObject.getString("dt_txt")
-            if (dateTime.endsWith("12:00:00") && !dateTime.startsWith(firstDay.getString("dt_txt").substring(0,10))) {
-                val temp = Math.round(forecastObject.getJSONObject("main").getDouble("temp") * 10).toDouble()/10
-                val forecastData = ForecastData(temp, unit, dateTime.substring(0,10), forecastObject.getJSONArray("weather").getJSONObject(0).getString("icon"))
+            if (dateTime.endsWith("12:00:00") && !dateTime.startsWith(
+                    firstDay.getString("dt_txt").substring(0, 10)
+                )
+            ) {
+                val temp = Math.round(forecastObject.getJSONObject("main").getDouble("temp") * 10)
+                    .toDouble() / 10
+                val forecastData = ForecastData(
+                    temp,
+                    unit,
+                    dateTime.substring(0, 10),
+                    forecastObject.getJSONArray("weather").getJSONObject(0).getString("icon")
+                )
                 forecastDataList.add(forecastData)
             }
         }
 
 
-        return WeatherData(city, latitude, longitude, formattedDateTime, temperature, unit, pressure, description,descriptionImage, humidity, windSpeed, windDeg, cloudiness, forecastDataList)
+        return WeatherData(
+            city,
+            latitude,
+            longitude,
+            formattedDateTime,
+            temperature,
+            unit,
+            pressure,
+            description,
+            descriptionImage,
+            humidity,
+            windSpeed,
+            windDeg,
+            cloudiness,
+            forecastDataList
+        )
     }
 
 }

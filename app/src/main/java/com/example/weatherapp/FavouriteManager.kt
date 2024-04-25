@@ -94,8 +94,7 @@ class FavouriteManager(context: Context) {
     }
 
     private fun getForecastDataList(jsonObject: JSONObject): MutableList<ForecastData> {
-        val jsonArray =
-            jsonObject.getJSONArray("forecastData")
+        val jsonArray = jsonObject.getJSONArray("forecastData")
         val forecastDataList = mutableListOf<ForecastData>()
 
         for (i in 0 until jsonArray.length()) {
@@ -113,9 +112,7 @@ class FavouriteManager(context: Context) {
     }
 
     fun setFavourite(
-        favouriteManager: FavouriteManager,
-        city: String,
-        buttonAddFavorites: ImageButton
+        favouriteManager: FavouriteManager, city: String, buttonAddFavorites: ImageButton
     ) {
         val isFavorite = favouriteManager.isCityFavorite(city)
         if (isFavorite) {
@@ -126,8 +123,7 @@ class FavouriteManager(context: Context) {
     }
 
     public fun saveWeatherDataForFavouriteCities(
-        favouriteManager: FavouriteManager,
-        mainActivity: MainActivity
+        favouriteManager: FavouriteManager, mainActivity: MainActivity
     ) {
         val favouriteCities = favouriteManager.getFavoriteCities()
         for (cityItem in favouriteCities) {

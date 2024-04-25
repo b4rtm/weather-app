@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -17,7 +16,6 @@ import android.widget.ListView
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
@@ -85,8 +83,15 @@ class MainActivity : AppCompatActivity() {
 
         editTextCity.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                fetchDataFromApi(convertItemToUnit(spinnerUnits.selectedItem.toString()), editTextCity.text.toString())
-                favouriteManager.setFavourite(favouriteManager,  editTextCity.text.toString(), buttonAddFavorites)
+                fetchDataFromApi(
+                    convertItemToUnit(spinnerUnits.selectedItem.toString()),
+                    editTextCity.text.toString()
+                )
+                favouriteManager.setFavourite(
+                    favouriteManager,
+                    editTextCity.text.toString(),
+                    buttonAddFavorites
+                )
                 hideKeyboard()
                 editTextCity.clearFocus()
                 return@setOnEditorActionListener true
@@ -139,7 +144,11 @@ class MainActivity : AppCompatActivity() {
             fetchDataFromApi("metric", city)
         } else {
             favouriteManager.getWeatherData(city)?.let { weatherViewModel.setWeatherData(it) }
-            Toast.makeText(this, "Dane mogą być nieaktualne. Brak połączenia z internetem", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "Data could be out of date. No Internet connection",
+                Toast.LENGTH_SHORT
+            ).show()
         }
         startDataRefreshThread(this)
 
@@ -179,8 +188,18 @@ class MainActivity : AppCompatActivity() {
 
         // Pobranie przycisku Close i zmiana jego wyglądu
         val positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-        positiveButton.setTextColor(ContextCompat.getColor(this, R.color.white)) // Ustawienie koloru tekstu
-        positiveButton.setBackgroundColor(ContextCompat.getColor(this, R.color.blue)) // Ustawienie koloru tła
+        positiveButton.setTextColor(
+            ContextCompat.getColor(
+                this,
+                R.color.white
+            )
+        ) // Ustawienie koloru tekstu
+        positiveButton.setBackgroundColor(
+            ContextCompat.getColor(
+                this,
+                R.color.blue
+            )
+        ) // Ustawienie koloru tła
 
         listViewFavoriteCities.onItemClickListener =
             AdapterView.OnItemClickListener { _, _, position, _ ->
@@ -191,7 +210,11 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     favouriteManager.getWeatherData(city)
                         ?.let { weatherViewModel.setWeatherData(it) }
-                    Toast.makeText(this, "Dane mogą być nieaktualne. Brak połączenia z internetem", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Data could be out of date. No Internet connection",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 alertDialog.dismiss()
             }
@@ -203,9 +226,9 @@ class MainActivity : AppCompatActivity() {
 
         val refreshRunnable = object : Runnable {
             override fun run() {
-                if(networkUtils.isNetworkAvailable()) {
+                if (networkUtils.isNetworkAvailable()) {
                     fetchDataFromApi("metric", city)
-                    Toast.makeText(context, "Zaaktualizowano dane", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Data updated", Toast.LENGTH_SHORT).show()
                     handler.postDelayed(this, refreshIntervalMillis)
                 }
             }

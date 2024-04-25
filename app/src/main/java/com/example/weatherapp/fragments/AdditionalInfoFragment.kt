@@ -22,11 +22,9 @@ class AdditionalInfoFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val view =  inflater.inflate(R.layout.fragment_additional_info, container, false)
+        val view = inflater.inflate(R.layout.fragment_additional_info, container, false)
 
         viewModel = ViewModelProvider(requireActivity()).get(WeatherViewModel::class.java)
 
@@ -43,7 +41,6 @@ class AdditionalInfoFragment : Fragment() {
             windDegreeTextView.text = weatherData.windDeg.toString() + "°"
             cloudsTextView.text = weatherData.clouds.toString() + "%"
         }
-
 
         return view
     }
