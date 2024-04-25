@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="header_font">50sp</dimen>
+    <dimen name="header_font2">60sp</dimen>
+    <dimen name="margin_bot">35sp</dimen>
+    <dimen name="font">25sp</dimen>
+    <dimen name="forecast_font">25sp</dimen>
+    <dimen name="forecast_temp_font">35sp</dimen>
+    <dimen name="padding">8dp</dimen>
+    <dimen name="image_dim">100dp</dimen>
+    <dimen name="margin_hor">0dp</dimen>
+
+</resources>
