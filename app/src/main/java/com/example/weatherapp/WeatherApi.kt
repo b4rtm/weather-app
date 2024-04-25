@@ -54,11 +54,8 @@ class WeatherApi(
         try {
             if (result != null) {
                 val weatherData = parseWeatherData(result)
-                Log.d("city", weatherData.city)
-                Log.d("citues", favouriteManager.getFavoriteCities().toString())
                 if (favouriteManager.isCityFavorite(weatherData.city)) {
                     favouriteManager.saveWeatherData(weatherData.city, weatherData)
-                    Log.d("Xdd", favouriteManager.getWeatherData(weatherData.city).toString())
                 }
                 viewModel.setWeatherData(weatherData)
                 mainActivity.city = weatherData.city

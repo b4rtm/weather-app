@@ -37,6 +37,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var weatherApi: WeatherApi
     private lateinit var networkUtils: NetworkUtils
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("city", city)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +48,9 @@ class MainActivity : AppCompatActivity() {
         favouriteManager = FavouriteManager(this)
         networkUtils = NetworkUtils(this)
 
-        city = favouriteManager.getFavoriteCities().firstOrNull() ?: "Warsaw"
+
+        city = savedInstanceState?.getString("city")
+            ?: (favouriteManager.getFavoriteCities().firstOrNull() ?: "Warsaw")
         editTextCity = findViewById(R.id.editTextCity)
         spinnerUnits = findViewById(R.id.spinnerUnits)
         tabLayout = findViewById(R.id.tabLayout)
@@ -141,7 +147,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         if (networkUtils.isNetworkAvailable()) {
-            fetchDataFromApi("metric", city)
+            fetchDataFromApi(convertItemToUnit(spinnerUnits.selectedItem.toString()), city)
         } else {
             favouriteManager.getWeatherData(city)?.let { weatherViewModel.setWeatherData(it) }
             Toast.makeText(
@@ -185,28 +191,18 @@ class MainActivity : AppCompatActivity() {
 
         val alertDialog = alertDialogBuilder.create()
         alertDialog.show()
-
-        // Pobranie przycisku Close i zmiana jego wyglądu
         val positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
         positiveButton.setTextColor(
-            ContextCompat.getColor(
-                this,
-                R.color.white
-            )
-        ) // Ustawienie koloru tekstu
+            ContextCompat.getColor(this, R.color.white))
         positiveButton.setBackgroundColor(
-            ContextCompat.getColor(
-                this,
-                R.color.blue
-            )
-        ) // Ustawienie koloru tła
+            ContextCompat.getColor(this, R.color.blue))
 
         listViewFavoriteCities.onItemClickListener =
             AdapterView.OnItemClickListener { _, _, position, _ ->
                 city = favoriteCitiesArray[position]
                 favouriteManager.setFavourite(favouriteManager, city, buttonAddFavorites)
                 if (networkUtils.isNetworkAvailable()) {
-                    fetchDataFromApi("metric", city)
+                    fetchDataFromApi(convertItemToUnit(spinnerUnits.selectedItem.toString()), city)
                 } else {
                     favouriteManager.getWeatherData(city)
                         ?.let { weatherViewModel.setWeatherData(it) }
@@ -227,7 +223,7 @@ class MainActivity : AppCompatActivity() {
         val refreshRunnable = object : Runnable {
             override fun run() {
                 if (networkUtils.isNetworkAvailable()) {
-                    fetchDataFromApi("metric", city)
+                    fetchDataFromApi(convertItemToUnit(spinnerUnits.selectedItem.toString()), city)
                     Toast.makeText(context, "Data updated", Toast.LENGTH_SHORT).show()
                     handler.postDelayed(this, refreshIntervalMillis)
                 }
