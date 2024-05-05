@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var favouriteManager: FavouriteManager
     lateinit var city: String
     private lateinit var weatherApi: WeatherApi
-    private lateinit var networkUtils: NetworkUtils
+    lateinit var networkUtils: NetworkUtils
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -78,8 +78,19 @@ class MainActivity : AppCompatActivity() {
         buttonAddFavorites.setOnClickListener {
             val isFavorite = favouriteManager.isCityFavorite(city)
             if (isFavorite) {
-                buttonAddFavorites.setImageResource(R.drawable.favorite)
-                favouriteManager.removeFavoriteCity(city)
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Remove from Favorites")
+                builder.setMessage("Do you want to remove this city from favorites?")
+                builder.setPositiveButton("Yes") { dialog, _ ->
+                    buttonAddFavorites.setImageResource(R.drawable.favorite)
+                    favouriteManager.removeFavoriteCity(city)
+                    dialog.dismiss()
+                }
+                builder.setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                val dialog = builder.create()
+                dialog.show()
             } else {
                 buttonAddFavorites.setImageResource(R.drawable.favorite_gold)
                 favouriteManager.addFavoriteCity(city)

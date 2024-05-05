@@ -60,7 +60,14 @@ class WeatherApi(
                 viewModel.setWeatherData(weatherData)
                 mainActivity.city = weatherData.city
             } else {
-                Toast.makeText(mainActivity, "This city does not exist.", Toast.LENGTH_SHORT).show()
+                if(mainActivity.networkUtils.isNetworkAvailable()) {
+                    Toast.makeText(mainActivity, "This city does not exist.", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                else{
+                    Toast.makeText(mainActivity, "Data could be out of date. No Internet connection", Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
