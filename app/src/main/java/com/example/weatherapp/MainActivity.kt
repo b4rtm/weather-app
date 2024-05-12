@@ -2,6 +2,7 @@ package com.example.weatherapp
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -19,6 +20,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.example.weatherapp.fragments.AdditionalInfoFragment
+import com.example.weatherapp.fragments.TodayFragment
+import com.example.weatherapp.fragments.WeekForecastFragment
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
@@ -36,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var city: String
     private lateinit var weatherApi: WeatherApi
     lateinit var networkUtils: NetworkUtils
+    private var refreshThread: Thread? = null
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -119,22 +124,29 @@ class MainActivity : AppCompatActivity() {
 
         weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
         adapter = FragmentPageAdapter(supportFragmentManager, lifecycle)
-        tabLayout.addTab(tabLayout.newTab().setText("More info"))
-        tabLayout.addTab(tabLayout.newTab().setText("Today"))
-        tabLayout.addTab(tabLayout.newTab().setText("Week"))
-        viewPager2.adapter = adapter
-        viewPager2.setCurrentItem(1, false)
-
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(p0: TabLayout.Tab?) {
-                if (p0 != null) {
-                    viewPager2.currentItem = p0.position
-                }
-            }
-
-            override fun onTabUnselected(p0: TabLayout.Tab?) {}
-            override fun onTabReselected(p0: TabLayout.Tab?) {}
-        })
+        if (isTablet()) {
+            // Tablet layout
+            setupTabletLayout()
+        } else {
+            // Phone layout
+            setupPhoneLayout()
+        }
+//        tabLayout.addTab(tabLayout.newTab().setText("More info"))
+//        tabLayout.addTab(tabLayout.newTab().setText("Today"))
+//        tabLayout.addTab(tabLayout.newTab().setText("Week"))
+//        viewPager2.adapter = adapter
+//        viewPager2.setCurrentItem(1, false)
+//
+//        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+//            override fun onTabSelected(p0: TabLayout.Tab?) {
+//                if (p0 != null) {
+//                    viewPager2.currentItem = p0.position
+//                }
+//            }
+//
+//            override fun onTabUnselected(p0: TabLayout.Tab?) {}
+//            override fun onTabReselected(p0: TabLayout.Tab?) {}
+//        })
 
         spinnerUnits.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -217,35 +229,38 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     favouriteManager.getWeatherData(city)
                         ?.let { weatherViewModel.setWeatherData(it) }
-                    Toast.makeText(
-                        this,
-                        "Data could be out of date. No Internet connection",
-                        Toast.LENGTH_SHORT
-                    ).show()
                 }
                 alertDialog.dismiss()
             }
     }
 
     private fun startDataRefreshThread(context: Context) {
-        val handler = Handler(Looper.getMainLooper())
-        val refreshIntervalMillis = 60 * 1000L
-
-        val refreshRunnable = object : Runnable {
-            override fun run() {
+        refreshThread = Thread {
+            while (!Thread.currentThread().isInterrupted) {
                 if (networkUtils.isNetworkAvailable()) {
                     fetchDataFromApi(convertItemToUnit(spinnerUnits.selectedItem.toString()), city)
-                    Toast.makeText(context, "Data updated", Toast.LENGTH_SHORT).show()
-                    handler.postDelayed(this, refreshIntervalMillis)
+                    runOnUiThread {
+                        Toast.makeText(context, "Data updated", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                try {
+                    Thread.sleep(30 * 1000L)
+                } catch (e: InterruptedException) {
+                    Thread.currentThread().interrupt()
                 }
             }
         }
-        handler.post(refreshRunnable)
+        refreshThread?.start()
+    }
 
+    private fun stopDataRefreshThread() {
+        refreshThread?.interrupt()
+        refreshThread = null
     }
 
     override fun onStop() {
         super.onStop()
+        stopDataRefreshThread()
         favouriteManager.saveWeatherDataForFavouriteCities(favouriteManager, this)
     }
 
@@ -253,5 +268,62 @@ class MainActivity : AppCompatActivity() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(editTextCity.windowToken, 0)
     }
+
+    private fun isTablet(): Boolean {
+        // Sprawdź, czy urządzenie jest tabletem na podstawie szerokości ekranu
+        val displayMetrics = Resources.getSystem().displayMetrics
+        val screenWidthDp = displayMetrics.widthPixels / displayMetrics.density
+        return screenWidthDp >= 600
+    }
+
+    private fun setupTabletLayout() {
+        val fragmentManager = supportFragmentManager
+
+        val todayFragment = TodayFragment()
+        val infoFragment = AdditionalInfoFragment()
+
+        val fragmentTransaction1 = fragmentManager.beginTransaction()
+        fragmentTransaction1.replace(R.id.todayFragmentContainer, todayFragment)
+        fragmentTransaction1.commit()
+
+        val fragmentTransaction2 = fragmentManager.beginTransaction()
+        fragmentTransaction2.replace(R.id.infoFragmentContainer, infoFragment)
+        fragmentTransaction2.commit()
+
+        val weekFragment = WeekForecastFragment()
+        val fragmentTransaction3 = fragmentManager.beginTransaction()
+        fragmentTransaction3.replace(R.id.weekFragmentContainer, weekFragment)
+        fragmentTransaction3.commit()
+    }
+
+    private fun setupPhoneLayout() {
+        val viewPager2 = findViewById<ViewPager2>(R.id.viewPager2)
+        val tabLayout = findViewById<TabLayout>(R.id.tabLayout)
+        val adapter = FragmentPageAdapter(supportFragmentManager, lifecycle)
+        viewPager2.adapter = adapter
+
+        tabLayout.addTab(tabLayout.newTab().setText("More info"))
+        tabLayout.addTab(tabLayout.newTab().setText("Today"))
+        tabLayout.addTab(tabLayout.newTab().setText("Week"))
+
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                tabLayout.selectTab(tabLayout.getTabAt(position))
+            }
+        })
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab != null) {
+                    viewPager2.currentItem = tab.position
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
+    }
+
 
 }
