@@ -125,28 +125,10 @@ class MainActivity : AppCompatActivity() {
         weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
         adapter = FragmentPageAdapter(supportFragmentManager, lifecycle)
         if (isTablet()) {
-            // Tablet layout
             setupTabletLayout()
         } else {
-            // Phone layout
             setupPhoneLayout()
         }
-//        tabLayout.addTab(tabLayout.newTab().setText("More info"))
-//        tabLayout.addTab(tabLayout.newTab().setText("Today"))
-//        tabLayout.addTab(tabLayout.newTab().setText("Week"))
-//        viewPager2.adapter = adapter
-//        viewPager2.setCurrentItem(1, false)
-//
-//        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-//            override fun onTabSelected(p0: TabLayout.Tab?) {
-//                if (p0 != null) {
-//                    viewPager2.currentItem = p0.position
-//                }
-//            }
-//
-//            override fun onTabUnselected(p0: TabLayout.Tab?) {}
-//            override fun onTabReselected(p0: TabLayout.Tab?) {}
-//        })
 
         spinnerUnits.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -270,7 +252,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isTablet(): Boolean {
-        // Sprawdź, czy urządzenie jest tabletem na podstawie szerokości ekranu
         val displayMetrics = Resources.getSystem().displayMetrics
         val screenWidthDp = displayMetrics.widthPixels / displayMetrics.density
         return screenWidthDp >= 600
@@ -324,6 +305,5 @@ class MainActivity : AppCompatActivity() {
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
     }
-
 
 }

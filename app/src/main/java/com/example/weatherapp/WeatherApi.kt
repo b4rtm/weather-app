@@ -64,10 +64,6 @@ class WeatherApi(
                     Toast.makeText(mainActivity, "This city does not exist.", Toast.LENGTH_SHORT)
                         .show()
                 }
-                else{
-                    Toast.makeText(mainActivity, "Data could be out of date. No Internet connection", Toast.LENGTH_SHORT)
-                        .show()
-                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
